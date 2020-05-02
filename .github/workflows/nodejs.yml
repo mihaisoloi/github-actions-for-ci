@@ -14,10 +14,16 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
+      - run: echo '::set-env name=SBT_OPTS::"Hello from ENV var"'
+      - run: "echo $SBT_OPTS"
       - name: npm install and build webpack
         run: |
           npm install
           npm run build
+          env:
+            SBT_OPTS2: "Hello from Second ENV var"
+      - name: test env vars
+        run: "echo $SBT_OPTS2"
       - uses: actions/upload-artifact@master
         with:
           name: webpack artifacts
